@@ -89,9 +89,17 @@ exports.default = () => {
 <div class="app">{<Page /> component SSR markup}</div>
 ```
 
-Versions:
+### Plugin options
+* ```ssrTagRegex``` - regex used to grab the tag to be replaced by the plugin. Default: 
+```regex
+/<SSR (.+?) \/>/g
+```
+* ```createDataProps``` - if set to true will add an additional atribute ```data-props``` to the output wrapper that will containt serilized arguments. Can be usefull for hydration. Defualt: ```false```
+
+## Versions:
 * 0.0.1 - initial version
 * 0.1.0 - fix naming conventionc, change chalk version
+* 0.1.1 - update docs
 
 ## Donate 
 If you find this piece of code to be useful, please consider a donation :)
