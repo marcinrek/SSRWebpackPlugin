@@ -1,5 +1,5 @@
 {
-  "name": "ssrwebpackplugin",
+  "name": "webpackssrplugin",
   "version": "0.0.1",
   "description": "SSR support for webpack",
   "main": "SSRWebpackPlugin.js",
