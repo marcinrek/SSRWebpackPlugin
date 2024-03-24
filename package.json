@@ -1,0 +1,31 @@
+{
+  "name": "ssrwebpackplugin",
+  "version": "0.0.1",
+  "description": "SSR support for webpack",
+  "main": "SSRWebpackPlugin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/marcinrek/SSRWebpackPlugin.git"
+  },
+  "keywords": [
+    "ssr",
+    "webpack",
+    "hydration"
+  ],
+  "author": "r3k",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcinrek/SSRWebpackPlugin/issues"
+  },
+  "homepage": "https://github.com/marcinrek/SSRWebpackPlugin#readme",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "esbuild": "^0.20.2",
+    "madge": "^6.1.0",
+    "path": "^0.12.7",
+    "webpack-cli": "^5.1.4"
+  }
+}
