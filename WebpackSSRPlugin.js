@@ -4,7 +4,7 @@ const chalk = require('chalk');
 const helpers = require('./modules/helpers');
 const bundler = require('./modules/bundler');
 
-class SSRWebpackPlugin {
+class WebpackSSRPlugin {
     /**
      * Process plugin options
      * @param {object} options plugin options
@@ -126,4 +126,4 @@ class SSRWebpackPlugin {
     }
 }
 
-module.exports = SSRWebpackPlugin;
+module.exports = WebpackSSRPlugin;

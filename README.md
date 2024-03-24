@@ -91,6 +91,7 @@ exports.default = () => {
 
 Versions:
 * 0.0.1 - initial version
+* 0.1.0 - fix naming conventionc, change chalk version
 
 ## Donate 
 If you find this piece of code to be useful, please consider a donation :)
