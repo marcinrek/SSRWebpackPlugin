@@ -1,6 +1,6 @@
 {
   "name": "webpackssrplugin",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "SSR support for webpack",
   "main": "WebpackSSRPlugin.js",
   "scripts": {
@@ -13,6 +13,7 @@
   "keywords": [
     "ssr",
     "webpack",
+    "preact",
     "hydration"
   ],
   "author": "r3k",

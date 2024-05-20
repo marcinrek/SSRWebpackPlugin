@@ -10,6 +10,25 @@
 
 ## Usage
 
+### Install
+```
+npm install webpackssrplugin
+```
+
+### Update webpack config
+```
+const WebpackSSRPlugin = require('webpackssrplugin');
+...
+plugins: [
+    ...
+    new WebpackSSRPlugin(),
+    ...
+]
+...
+```
+
+### Use
+
 In your HTML file, add the following tag to incorporate SSR into your application:
 
 ```html
@@ -95,11 +114,13 @@ exports.default = () => {
 /<SSR (.+?) \/>/g
 ```
 * ```createDataProps``` - if set to true will add an additional atribute ```data-props``` to the output wrapper that will containt serilized arguments. Can be usefull for hydration. Defualt: ```false```
+* ```verbose``` print additional debug output. Default: ```false```
 
 ## Versions:
-* 0.0.1 - initial version
-* 0.1.0 - fix naming conventionc, change chalk version
+* 0.1.2 - add args["_"], add verbose configuration option
 * 0.1.1 - update docs
+* 0.1.0 - fix naming conventionc, change chalk version
+* 0.0.1 - initial version
 
 ## Donate 
 If you find this piece of code to be useful, please consider a donation :)

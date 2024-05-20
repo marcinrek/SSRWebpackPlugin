@@ -12,11 +12,12 @@ class WebpackSSRPlugin {
     constructor(options) {
         this.data = {};
         this.data.initialRun = true;
-        this.options = options || {};
+        this.options = options || {}; 
 
         // Default options
-        !this.options?.ssrTagRegex ? (this.options.ssrTagRegex = /<SSR (.+?) \/>/g) : this.options.ssrTagRegex;
-        this.options.createDataProps = this.options?.createDataProps ? this.options.createDataProps : false;
+        this.options.ssrTagRegex = !this.options?.ssrTagRegex ? /<SSR (.+?) \/>/g : this.options.ssrTagRegex;
+        this.options.createDataProps = !this.options?.createDataProps ? false : this.options.createDataProps;
+        this.options.verbose = !this.options?.verbose ? false : true;
 
         // Print options
         console.log(chalk.magenta(`[SSRWebpackPlugin] Initiated with following options: `));
@@ -69,17 +70,25 @@ class WebpackSSRPlugin {
                                 try {
                                     const ssrNodeArgs = helpers.getTagAttributes(_);
 
-                                    console.log(chalk.magenta(`[SSRWebpackPlugin] Using the folowing attributes in ${chalk.cyan(assetName)}:`));
-                                    console.log(ssrNodeArgs);
+                                    this.options.verbose && console.log(chalk.magenta(`[SSRWebpackPlugin] Using the folowing attributes in ${chalk.cyan(assetName)}:`));
+                                    this.options.verbose && console.log(ssrNodeArgs);
 
                                     // Get absolute entry file path
                                     const filePath = path.resolve(assetPath, ssrNodeArgs['src']);
 
                                     // Get args to be passed to the default export
                                     const args = helpers.requireUncached(path.resolve(assetPath, ssrNodeArgs['args'])).default;
+                                    const argsExec = args();
 
-                                    console.log(chalk.magenta(`[SSRWebpackPlugin] Using the folowing arguments in ${chalk.cyan(assetName)}:`));
-                                    console.log(args());
+                                    this.options.verbose && console.log(chalk.magenta(`[SSRWebpackPlugin] Using the folowing arguments in ${chalk.cyan(assetName)}:`));
+                                    
+                                    // Append args
+                                    argsExec['_'] = {
+                                        fileName: assetName,
+                                    };
+                                    
+                                    // Display the args
+                                    this.options.verbose && console.log(argsExec);
 
                                     // Wait for the bundle to finish and get the bundle path
                                     const bundleFilePath = await bundler.evaluateModule(
@@ -94,7 +103,7 @@ class WebpackSSRPlugin {
                                     // Wait for the default to execute as it is async
                                     const serverCallResult = await (async () => {
                                         try {
-                                            const result = await serverFunction(args());
+                                            const result = await serverFunction(argsExec);
                                             return result;
                                         } catch (error) {
                                             console.error('Error executing server function:', error);
@@ -106,7 +115,7 @@ class WebpackSSRPlugin {
                                         ssrNodeArgs['wrapperTag'],
                                         ssrNodeArgs['wrapperClass'],
                                         serverCallResult,
-                                        this.options.createDataProps ? args() : null,
+                                        this.options.createDataProps ? argsExec : null,
                                     );
                                 } catch (error) {
                                     console.error(`Error requiring file: ${error}`);
