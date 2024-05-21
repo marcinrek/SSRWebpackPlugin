@@ -113,10 +113,11 @@ exports.default = () => {
 ```regex
 /<SSR (.+?) \/>/g
 ```
-* ```createDataProps``` - if set to true will add an additional atribute ```data-props``` to the output wrapper that will containt serilized arguments. Can be usefull for hydration. Defualt: ```false```
+* ```createDataProps``` - if set to true will add an additional atribute ```data-props``` to the output wrapper that will containt serilized arguments. Can be usefull for hydration. This can be overwritten by ```data-printdataprops="{true|false}"```. Defualt: ```false```
 * ```verbose``` print additional debug output. Default: ```false```
 
 ## Versions:
+* 0.2.0 - add data-printdataprops attribute to override createDataProps for individual items 
 * 0.1.2 - add args["_"], add verbose configuration option
 * 0.1.1 - update docs
 * 0.1.0 - fix naming conventionc, change chalk version

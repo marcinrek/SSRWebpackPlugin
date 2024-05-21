@@ -113,7 +113,8 @@ const getTagAttributes = (tagString) => {
 
     // Strip all attributes
     const attrObj = {};
-    sanitizedTag.match(/[a-zA-Z]+="(.+?)"/g).forEach((attr) => {
+    const tagMatch = sanitizedTag.match(/[a-zA-Z]+="(.+?)"/g);
+    tagMatch && tagMatch.forEach((attr) => {
         attrObj[attr.split('=')[0].replace(/"|\n/g, '')] = attr.split('=')[1].replace(/"|\n/g, '');
     });
 
@@ -129,7 +130,7 @@ const getTagAttributes = (tagString) => {
  * @returns {string}
  */
 const wrapOutput = (tag, className, markup, args) => {
-    return `<${tag} class="${className}" ${args ? `data-props='${JSON.stringify(args)}'` : ''}>${markup}</${tag}>`;
+    return `<${tag} class="${className}" ${args ? `data-props='${JSON.stringify(args)}'` : ''}>${markup}</${tag}>`.replace(' >','>');
 };
 
 // Export helpers

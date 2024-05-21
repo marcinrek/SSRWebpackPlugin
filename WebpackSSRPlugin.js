@@ -70,6 +70,12 @@ class WebpackSSRPlugin {
                                 try {
                                     const ssrNodeArgs = helpers.getTagAttributes(_);
 
+                                    // Handle data-props print override
+                                    let printDataProps = this.options.createDataProps;
+                                    if (ssrNodeArgs?.["printdataprops"]) {
+                                        printDataProps = ssrNodeArgs["printdataprops"] === "true" ? true : false;
+                                    } 
+
                                     this.options.verbose && console.log(chalk.magenta(`[SSRWebpackPlugin] Using the folowing attributes in ${chalk.cyan(assetName)}:`));
                                     this.options.verbose && console.log(ssrNodeArgs);
 
@@ -115,7 +121,7 @@ class WebpackSSRPlugin {
                                         ssrNodeArgs['wrapperTag'],
                                         ssrNodeArgs['wrapperClass'],
                                         serverCallResult,
-                                        this.options.createDataProps ? argsExec : null,
+                                        printDataProps ? argsExec : null,
                                     );
                                 } catch (error) {
                                     console.error(`Error requiring file: ${error}`);

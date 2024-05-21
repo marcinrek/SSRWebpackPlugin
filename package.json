@@ -1,10 +1,10 @@
 {
   "name": "webpackssrplugin",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "SSR support for webpack",
   "main": "WebpackSSRPlugin.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --verbose --passWithNoTests"
   },
   "repository": {
     "type": "git",
@@ -28,5 +28,9 @@
     "madge": "^6.1.0",
     "path": "^0.12.7",
     "webpack-cli": "^5.1.4"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
   }
 }
