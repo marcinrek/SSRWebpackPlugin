@@ -93,11 +93,11 @@ export default serverCall;
 ```
 * source of ```component.args.js```
 ```js
-require('dotenv').config({
-    path: '.env.development',
-});
+exports.default = (envFile) => {
+    require('dotenv').config({
+        path: envFile,
+    });
 
-exports.default = () => {
     return {
         dataAPI: `http://${process.env.APIHOST}${process.env.DATAAPI}`
     };
@@ -115,8 +115,15 @@ exports.default = () => {
 ```
 * ```createDataProps``` - if set to true will add an additional atribute ```data-props``` to the output wrapper that will containt serilized arguments. Can be usefull for hydration. This can be overwritten by ```data-printdataprops="{true|false}"```. Defualt: ```false```
 * ```verbose``` print additional debug output. Default: ```false```
+* ```metaDisplay``` print esBuild metadata output. Default: ```false```
+* ```metaFile``` store esBuild metadata output to file. Default: ```false```
+* ```envFile``` this value will be passed as an argument to the default export from the file passed in args parameter. Can be used to require a different .env file depending on the type of build - development or production. Default: ```.env```
 
 ## Versions:
+* 0.2.[5,6] - minor fixes
+* 0.2.4 - add envFile setting
+* 0.2.3 - minor fixes
+* 0.2.2 - add metafile display and/or file generation for bundle
 * 0.2.0 - add data-printdataprops attribute to override createDataProps for individual items 
 * 0.1.2 - add args["_"], add verbose configuration option
 * 0.1.1 - update docs

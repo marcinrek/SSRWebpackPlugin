@@ -1,3 +1,4 @@
+const fs = require('fs')
 const path = require('path');
 const chalk = require('chalk');
 const esbuild = require('esbuild');
@@ -9,19 +10,27 @@ const esbuild = require('esbuild');
  * @param {boolean} buildRequired flag is the build required
  * @returns {string} bundle file path
  */
-const evaluateModule = async (filePath, buildRequired) => {
+const evaluateModule = async (filePath, buildRequired, metaDisplay, metaFile) => {
     const bundleFileName = filePath.split('/')[filePath.split('/').length - 1].replace(/\.(js|jsx)$/, '.bundle.js');
+    const metaFileName = metaFile && filePath.split('/')[filePath.split('/').length - 1].replace(/\.(js|jsx)$/, '.bundle.meta.json');
     const outfilePath = filePath.split('/').slice(0, -1).join('/');
 
     if (buildRequired) {
-        await esbuild.build({
+        let result = await esbuild.build({
             entryPoints: [filePath],
             platform: 'node',
             target: 'node18',
             bundle: true,
             minify: true,
+            metafile: metaDisplay || metaFile,
             outfile: `${outfilePath}/${bundleFileName}`,
         });
+
+        // Display stats
+        metaDisplay && console.log(await esbuild.analyzeMetafile(result.metafile))
+
+        // Store stats to file
+        metaFile && fs.writeFileSync(`${outfilePath}/${metaFileName}`, JSON.stringify(result.metafile))
     }
 
     if (buildRequired) {

@@ -18,6 +18,9 @@ class WebpackSSRPlugin {
         this.options.ssrTagRegex = !this.options?.ssrTagRegex ? /<SSR (.+?) \/>/g : this.options.ssrTagRegex;
         this.options.createDataProps = !this.options?.createDataProps ? false : this.options.createDataProps;
         this.options.verbose = !this.options?.verbose ? false : true;
+        this.options.metaDisplay = !this.options?.metaDisplay ? false : true;
+        this.options.metaFile = !this.options?.metaFile ? false : true;
+        this.options.envFile = !this.options?.envFile ? '.env' : this.options.envFile;
 
         // Print options
         console.log(chalk.magenta(`[SSRWebpackPlugin] Initiated with following options: `));
@@ -84,7 +87,7 @@ class WebpackSSRPlugin {
 
                                     // Get args to be passed to the default export
                                     const args = helpers.requireUncached(path.resolve(assetPath, ssrNodeArgs['args'])).default;
-                                    const argsExec = args();
+                                    const argsExec = args(this.options.envFile);
 
                                     this.options.verbose && console.log(chalk.magenta(`[SSRWebpackPlugin] Using the folowing arguments in ${chalk.cyan(assetName)}:`));
                                     
@@ -100,6 +103,8 @@ class WebpackSSRPlugin {
                                     const bundleFilePath = await bundler.evaluateModule(
                                         helpers.pathToPosix(filePath),
                                         helpers.checkIsRebuldRequired(this.moduleDependencies, filePath, this.data.initialRun),
+                                        this.options.metaDisplay,
+                                        this.options.metaFile,
                                     );
 
                                     // Require the bundle
