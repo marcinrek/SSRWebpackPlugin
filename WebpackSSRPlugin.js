@@ -105,16 +105,18 @@ class WebpackSSRPlugin {
                                         helpers.checkIsRebuldRequired(this.moduleDependencies, filePath, this.data.initialRun),
                                         this.options.metaDisplay,
                                         this.options.metaFile,
+                                        ssrNodeArgs?.esmFunction ? 'esm' : 'cjs'
                                     );
 
-                                    // Require the bundle
-                                    const serverBundle = helpers.requireUncached(bundleFilePath);
-                                    const serverFunction = serverBundle.default;
+                                    // Require the bundle - important to keep it uncached
+                                    const serverBundle = ssrNodeArgs?.esmFunction ? await import(`file://${bundleFilePath}?t=${Date.now()}`) : helpers.requireUncached(bundleFilePath);
+                                    const serverFunction = serverBundle.default?.[ssrNodeArgs.esmFunction] || serverBundle.default;
 
                                     // Wait for the default to execute as it is async
                                     const serverCallResult = await (async () => {
                                         try {
-                                            const result = await serverFunction(argsExec);
+                                            // Spread the object to attributes OR pass as a single attribute
+                                            const result = ssrNodeArgs?.spreadArgs ? await serverFunction(...Object.values(argsExec)) : await serverFunction(argsExec);
                                             return result;
                                         } catch (error) {
                                             console.error('Error executing server function:', error);

@@ -61,7 +61,7 @@ describe('wrapOutput', () => {
 
     test('should handle empty className and args', () => {
         const result = helpers.wrapOutput('p', '', 'No class or args', null);
-        expect(result).toEqual('<p class="">No class or args</p>');
+        expect(result).toEqual('<p>No class or args</p>');
     });
 
     test('should correctly escape quotes in args', () => {

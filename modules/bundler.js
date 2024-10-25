@@ -10,8 +10,9 @@ const esbuild = require('esbuild');
  * @param {boolean} buildRequired flag is the build required
  * @returns {string} bundle file path
  */
-const evaluateModule = async (filePath, buildRequired, metaDisplay, metaFile) => {
-    const bundleFileName = filePath.split('/')[filePath.split('/').length - 1].replace(/\.(js|jsx)$/, '.bundle.js');
+const evaluateModule = async (filePath, buildRequired, metaDisplay, metaFile, bundleFormat) => {
+    // Define the output file name - mjs for esm and js for commonjs
+    const bundleFileName = filePath.split('/')[filePath.split('/').length - 1].replace(/\.(js|jsx)$/, `${bundleFormat === 'esm' ? '.bundle.mjs' : '.bundle.js'}`);
     const metaFileName = metaFile && filePath.split('/')[filePath.split('/').length - 1].replace(/\.(js|jsx)$/, '.bundle.meta.json');
     const outfilePath = filePath.split('/').slice(0, -1).join('/');
 
@@ -21,9 +22,10 @@ const evaluateModule = async (filePath, buildRequired, metaDisplay, metaFile) =>
             platform: 'node',
             target: 'node18',
             bundle: true,
-            minify: true,
+            minify: false,
             metafile: metaDisplay || metaFile,
             outfile: `${outfilePath}/${bundleFileName}`,
+            format: bundleFormat
         });
 
         // Display stats

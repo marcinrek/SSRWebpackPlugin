@@ -119,7 +119,20 @@ exports.default = (envFile) => {
 * ```metaFile``` store esBuild metadata output to file. Default: ```false```
 * ```envFile``` this value will be passed as an argument to the default export from the file passed in args parameter. Can be used to require a different .env file depending on the type of build - development or production. Default: ```.env```
 
+### &lt;SSR /&gt; tag attributes
+* ```src``` - path to the input js file to bundle and SSR
+* ```args``` - path to js file responsible for building the arguments
+* ```spreadArgs``` - if true it will spread the output of args object to separate attributes
+* ```esmFunction``` - when provided a function with that name will be called - this must me an async function from the export default. It also changes the bundle type from commonjs to esm if provided
+* ```wrapperClass``` - class of the wrapper tag
+* ```wrapperTag``` - tag type for the wrapper
+* ```data-printdataprops``` - if true will print the data-props - it can overwrite createDataProps setting 
+
 ## Versions:
+* 0.3.0 - major changes:
+    * add option to pick output bundle format: ES or CommonJS
+    * make it possible to not specify a wrapper around output html
+    * make it possible to pass multiple arguments to the SSR functions via arguments
 * 0.2.[5,6] - minor fixes
 * 0.2.4 - add envFile setting
 * 0.2.3 - minor fixes
